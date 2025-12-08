@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initGoalTabs();
     initFloatingElements();
     initTherapyCards();
-    initForgeControls();
+    initEngineControls();
+    initCreationControls();
     initSmoothScroll();
+    initCarouselScroll();
 });
 
 // ===== Goal Tabs =====
@@ -332,10 +334,20 @@ function initTherapyCards() {
     }
 
     cards.forEach(card => {
+        // Card click - toggle selection
         card.addEventListener('click', () => {
-            const therapy = card.dataset.therapy;
-            openModal(therapy);
+            card.classList.toggle('selected');
         });
+
+        // Info button click - open modal
+        const infoBtn = card.querySelector('.info-btn');
+        if (infoBtn) {
+            infoBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const therapy = card.dataset.therapy;
+                openModal(therapy);
+            });
+        }
 
         // 3D tilt effect on hover
         card.addEventListener('mousemove', (e) => {
@@ -397,45 +409,189 @@ rippleStyle.textContent = `
 `;
 document.head.appendChild(rippleStyle);
 
-// ===== Character Forge Controls =====
-function initForgeControls() {
-    // Approach buttons (therapy approaches) - allow multiple selections
-    const approachButtons = document.querySelectorAll('.approach-btn');
-    approachButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Toggle active state for multiple selections
-            btn.classList.toggle('active');
+// ===== Integrative Engine Controls =====
+function initEngineControls() {
+    const modules = document.querySelectorAll('.module-card');
+    const coreBrain = document.querySelector('.core-brain');
+    const orbitsLayer = document.getElementById('orbitsLayer');
+    const activeNameDisplay = document.getElementById('activeModuleName');
 
-            // Get all selected approaches
-            const selected = Array.from(document.querySelectorAll('.approach-btn.active'))
-                .map(b => b.dataset.approach);
-            console.log(`Selected approaches: ${selected.join(', ')}`);
+    // Data for each therapy module (Nodes to spawn)
+    const engineData = {
+        thirdwave: {
+            label: "Third Wave",
+            nodes: [
+                { name: "ACT", icon: "🎯" },
+                { name: "DBT", icon: "⚖️" },
+                { name: "Schema", icon: "🗝️" },
+                { name: "CFT", icon: "💗" },
+                { name: "MBCT", icon: "🧘" }
+            ]
+        },
+        cbt: {
+            label: "CBT",
+            nodes: [
+                { name: "Restructuring", icon: "🧩" },
+                { name: "Exposure", icon: "🧗" },
+                { name: "Behavioral", icon: "📝" },
+                { name: "Logic", icon: "💡" }
+            ]
+        },
+        psychodynamic: {
+            label: "Psychodynamic",
+            nodes: [
+                { name: "Unconscious", icon: "🌑" },
+                { name: "Dreams", icon: "💤" },
+                { name: "Shadow", icon: "🌗" },
+                { name: "Attachment", icon: "🔗" }
+            ]
+        },
+        systemic: {
+            label: "Systemic",
+            nodes: [
+                { name: "Family", icon: "👨‍👩‍👧‍👦" },
+                { name: "Context", icon: "🌐" },
+                { name: "Patterns", icon: "🔄" },
+                { name: "Relations", icon: "🤝" }
+            ]
+        },
+        humanistic: {
+            label: "Humanistic",
+            nodes: [
+                { name: "Empathy", icon: "💖" },
+                { name: "Growth", icon: "🌱" },
+                { name: "Self", icon: "☀️" },
+                { name: "Presence", icon: "🧘" }
+            ]
+        },
+        gestalt: {
+            label: "Gestalt",
+            nodes: [
+                { name: "Here & Now", icon: "👇" },
+                { name: "Awareness", icon: "👁️" },
+                { name: "Wholeness", icon: "⚪" },
+                { name: "Contact", icon: "👉" }
+            ]
+        }
+    };
+
+    modules.forEach(module => {
+        module.addEventListener('click', () => {
+            // 1. Deactivate all others
+            modules.forEach(m => m.classList.remove('active'));
+
+            // 2. Activate clicked
+            module.classList.add('active');
+
+            // 3. Get Data
+            const moduleKey = module.dataset.module;
+            const data = engineData[moduleKey];
+
+            if (data) {
+                updateCore(data);
+            }
         });
     });
 
-    // Aura buttons
-    const auraButtons = document.querySelectorAll('.aura-btn');
-    auraButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            auraButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateAuraColor(btn.dataset.aura);
-        });
-    });
+    function updateCore(data) {
+        // Update Text
+        if (activeNameDisplay) {
+            activeNameDisplay.style.opacity = 0;
+            setTimeout(() => {
+                activeNameDisplay.textContent = data.label + " Architecture";
+                activeNameDisplay.style.opacity = 1;
+            }, 200);
+        }
 
-    // Voice tone slider
-    const toneSlider = document.getElementById('voiceTone');
-    if (toneSlider) {
-        toneSlider.addEventListener('input', (e) => {
-            console.log(`Voice tone: ${e.target.value}`);
+        // Activate Brain
+        if (coreBrain) {
+            coreBrain.classList.add('active');
+            // Flash effect
+            coreBrain.style.filter = "drop-shadow(0 0 20px var(--accent-purple)) brightness(1.5)";
+            setTimeout(() => {
+                coreBrain.style.filter = "";
+            }, 300);
+        }
+
+        // Spawn Nodes
+        spawnNodes(data.nodes);
+    }
+
+    function spawnNodes(nodes) {
+        if (!orbitsLayer) return;
+
+        // Clear existing
+        orbitsLayer.innerHTML = '';
+
+        const radius = 160; // Distance from center
+        const totalNodes = nodes.length;
+
+        nodes.forEach((node, index) => {
+            const angleDeg = (360 / totalNodes) * index;
+            const delay = index * 0.1; // Staggered animation
+
+            const nodeEl = document.createElement('div');
+            nodeEl.className = 'orbit-node';
+            nodeEl.innerHTML = `<span class="orbit-node-icon">${node.icon}</span> ${node.name}`;
+
+            // Set custom properties for CSS animation
+            nodeEl.style.setProperty('--radius', `${radius}px`);
+
+            // Randomize duration slightly for organic feel
+            const duration = 20 + Math.random() * 10;
+            // Set initial rotation offset
+            const startRotation = angleDeg;
+
+            // Apply complex animation
+            // NOTE: We use a wrapper approach or direct calculation in CSS? 
+            // Let's use the CSS @keyframes 'orbitFloat' we defined.
+            // But we need to set the initial position correctly.
+
+            // Simpler approach: Rotate the CONTAINER of the node? No, distinct nodes.
+            // Let's just set the animation-delay negative to position them?
+
+            // Correct approach for CSS orbits:
+            // 1. node is centered.
+            // 2. transform: rotate(START_ANGLE) translateX(RADIUS) rotate(-START_ANGLE)
+            // But we want them to MOVE.
+
+            nodeEl.style.animation = `orbitFloat ${duration}s linear infinite`;
+            nodeEl.style.animationDelay = `-${(duration / totalNodes) * index}s`; // Distribute along orbit
+
+            orbitsLayer.appendChild(nodeEl);
         });
     }
 
-    // Forge CTA button
-    const forgeCta = document.querySelector('.forge-cta');
-    if (forgeCta) {
-        forgeCta.addEventListener('click', () => {
-            createForgeAnimation();
+    // Auto-select "Third Wave" on load
+    const defaultModule = document.querySelector('.module-card[data-module="thirdwave"]');
+    if (defaultModule) {
+        // Use a small timeout to ensure DOM is ready and animations look good
+        setTimeout(() => {
+            defaultModule.click();
+        }, 500);
+    }
+}
+
+// ===== Character Creation Controls =====
+function initCreationControls() {
+    const approachBtns = document.querySelectorAll('.approach-btn');
+
+    approachBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+        });
+    });
+
+    const createBtn = document.querySelector('.forge-cta');
+    if (createBtn) {
+        createBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const btnText = createBtn.querySelector('span:not(.cta-icon)');
+            if (btnText) btnText.textContent = "Bringing to Life...";
+            setTimeout(() => {
+                if (btnText) btnText.textContent = "Ready!";
+                createBtn.classList.add('success');
+            }, 1500);
         });
     }
 }
@@ -554,3 +710,38 @@ window.addEventListener('scroll', () => {
         ticking = true;
     }
 });
+
+// ===== Mobile Carousel Scroll Spy =====
+function initCarouselScroll() {
+    const grid = document.querySelector('.character-cards-grid');
+    const dots = document.querySelectorAll('.carousel-dots .dot');
+
+    if (!grid || !dots.length) return;
+
+    // Update dots on scroll
+    grid.addEventListener('scroll', () => {
+        const itemWidth = grid.clientWidth;
+        const activeIndex = Math.round(grid.scrollLeft / itemWidth);
+
+        dots.forEach((dot, index) => {
+            if (index === activeIndex) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+    });
+
+    // Click on dots to scroll
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+            const itemWidth = grid.clientWidth;
+            grid.scrollTo({
+                left: itemWidth * index,
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
+

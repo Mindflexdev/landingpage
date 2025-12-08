@@ -5,17 +5,17 @@
     --bg-card: rgba(30, 30, 50, 0.6);
     --glass-bg: rgba(255, 255, 255, 0.05);
     --glass-border: rgba(255, 255, 255, 0.1);
-    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --gradient-primary: linear-gradient(135deg, #20E2D7 0%, #17b8c1 50%, #0072FF 100%);
     --gradient-warm: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #ffd89b 100%);
     --gradient-calm: linear-gradient(180deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
-    --glow-purple: rgba(147, 112, 219, 0.4);
-    --glow-pink: rgba(240, 147, 251, 0.3);
+    --glow-purple: rgba(32, 226, 215, 0.4);
+    --glow-pink: rgba(0, 114, 255, 0.3);
     --glow-blue: rgba(100, 181, 246, 0.3);
     --text-primary: #ffffff;
     --text-secondary: rgba(255, 255, 255, 0.7);
     --text-muted: rgba(255, 255, 255, 0.5);
-    --accent-purple: #9370db;
-    --accent-pink: #f093fb;
+    --accent-purple: #20E2D7;
+    --accent-pink: #0072FF;
     --accent-blue: #64b5f6;
     --font-display: 'Playfair Display', serif;
     --font-body: 'Outfit', sans-serif;
@@ -2434,4 +2434,918 @@ body {
     100% {
         transform: translateY(0) translateX(0);
     }
+}
+
+/* ===== Floating Background Orbs ===== */
+.floating-orbs {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    filter: blur(80px);
+    opacity: 0.4;
+    animation: floatOrb 20s infinite ease-in-out;
+}
+
+.orb-1 {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+    background: radial-gradient(circle, var(--accent-purple), transparent 70%);
+}
+
+.orb-2 {
+    width: 500px;
+    height: 500px;
+    bottom: -150px;
+    right: -150px;
+    animation-delay: -5s;
+    background: radial-gradient(circle, var(--accent-pink), transparent 70%);
+}
+
+.orb-3 {
+    width: 300px;
+    height: 300px;
+    top: 40%;
+    left: 60%;
+    animation-delay: -10s;
+    background: radial-gradient(circle, var(--accent-blue), transparent 70%);
+    opacity: 0.3;
+}
+
+@keyframes floatOrb {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(50px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-30px, 20px) scale(0.9);
+    }
+}
+
+/* Unified Forge Styles */
+.therapy-grid.selection-mode {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    /* Adaptive columns */
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.therapy-card {
+    background: var(--bg-card);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+}
+
+.therapy-card:hover {
+    transform: translateY(-5px);
+    background: linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.therapy-card.selected {
+    background: rgba(124, 58, 237, 0.15);
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 25px rgba(124, 58, 237, 0.3);
+    transform: translateY(-5px);
+}
+
+.card-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+/* Info Button - positioned absolute in header */
+.info-btn {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    z-index: 2;
+    /* Above card click area */
+    padding: 0;
+}
+
+.info-btn:hover {
+    background: var(--accent-purple);
+    color: white;
+    transform: scale(1.1);
+}
+
+.therapy-icon {
+    font-size: 2rem;
+}
+
+.therapy-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-primary);
+}
+
+.therapy-card p {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    line-height: 1.3;
+}
+
+/* Selection Indicator (Checkmark) */
+.selection-indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid var(--glass-border);
+    opacity: 0.3;
+    transition: all 0.3s;
+}
+
+.therapy-card.selected .selection-indicator {
+    background: var(--accent-green);
+    border-color: var(--accent-green);
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+    background-size: 70%;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 10px var(--glow-green);
+}
+
+/* ===== Integrative Engine Section ===== */
+.integrative-engine {
+    padding: 6rem 2rem;
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.engine-container {
+    display: grid;
+    grid-template-areas:
+        "header header"
+        "modules vis";
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* Module Registry (Left) */
+.engine-modules {
+    grid-area: modules;
+    z-index: 10;
+}
+
+.engine-header {
+    grid-area: header;
+    margin-bottom: 3rem;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modules-grid-wrapper {
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 1rem;
+    /* Custom Scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-purple) rgba(255, 255, 255, 0.05);
+}
+
+.modules-grid-wrapper::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modules-grid-wrapper::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+}
+
+.modules-grid-wrapper::-webkit-scrollbar-thumb {
+    background: var(--accent-purple);
+    border-radius: 3px;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+}
+
+/* Module Card (High-Tech Style) */
+.module-card {
+    background: rgba(18, 18, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+}
+
+.module-card:hover {
+    background: rgba(30, 30, 50, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.module-card.active {
+    background: rgba(32, 226, 215, 0.1);
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 25px rgba(32, 226, 215, 0.2);
+}
+
+.module-card.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--accent-purple);
+    box-shadow: 0 0 10px var(--accent-purple);
+}
+
+.module-icon {
+    font-size: 2.5rem;
+    filter: grayscale(100%);
+    transition: filter 0.3s, transform 0.3s;
+}
+
+.module-card.active .module-icon {
+    filter: grayscale(0%);
+    filter: drop-shadow(0 0 10px var(--glow-purple));
+    transform: scale(1.1);
+}
+
+.module-info h3 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.module-info p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 300;
+}
+
+/* Orbiting Nodes Animation */
+.orbits-layer {
+    position: absolute;
+    inset: -100px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.orbit-node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(10, 10, 18, 0.8);
+    border: 1px solid var(--accent-purple);
+    border-radius: 20px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    transform-origin: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.orbit-node-icon {
+    font-size: 1rem;
+}
+
+@keyframes orbitFloat {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg) translateX(var(--radius)) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg) translateX(var(--radius)) rotate(-360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+/* Right: Core Visualization */
+.engine-visualization {
+    grid-area: vis;
+    position: relative;
+    height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+}
+
+.core-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.core-main {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, #2a2a40, #0a0a12);
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.5), inset 0 0 30px rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.core-brain {
+    width: 120px;
+    height: 120px;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="rgba(32, 226, 215, 0.3)" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>') no-repeat center;
+    background-size: contain;
+    opacity: 0.5;
+    transition: all 0.5s;
+}
+
+/* Dynamic Core State */
+.core-brain.active {
+    stroke: var(--accent-purple);
+    filter: drop-shadow(0 0 10px var(--glow-purple));
+    opacity: 1;
+}
+
+.core-inner-ring {
+    position: absolute;
+    inset: 50px;
+    border: 2px dashed rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: rotate 20s linear infinite reverse;
+}
+
+.core-outer-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    animation: rotate 30s linear infinite;
+}
+
+.core-outer-ring::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-purple);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--glow-purple);
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.active-modules-display {
+    position: absolute;
+    bottom: -60px;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    color: var(--text-primary);
+    text-shadow: 0 0 10px var(--glow-purple);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s;
+}
+
+.active-modules-display.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Core Labels (Floating UI) */
+.core-labels {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.core-label {
+    position: absolute;
+    font-size: 0.75rem;
+    color: var(--accent-blue);
+    background: rgba(10, 15, 30, 0.8);
+    padding: 0.25rem 0.75rem;
+    border: 1px solid rgba(100, 181, 246, 0.3);
+    border-radius: 4px;
+    backdrop-filter: blur(4px);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.core-label.top {
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.core-label.bottom {
+    bottom: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.core-label.left {
+    left: 0%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.core-label.right {
+    right: 0%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* ===== Character Creation Section ===== */
+.character-creation {
+    padding: 6rem 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.creation-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group label {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+    font-family: var(--font-body);
+    transition: all 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-purple);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(124, 58, 237, 0.2);
+}
+
+.form-input.textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* Approaches Grid (12 Items) */
+.approaches-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+.approach-btn {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.approach-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
+}
+
+.approach-btn.active {
+    background: rgba(124, 58, 237, 0.15);
+    border-color: var(--accent-purple);
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+}
+
+.btn-icon {
+    font-size: 1.75rem;
+}
+
+.btn-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* Responsive Engine & Creation */
+@media (max-width: 900px) {
+    .engine-container {
+        grid-template-areas:
+            "header"
+            "vis"
+            "modules";
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+
+    .engine-visualization {
+        height: 350px;
+        width: 100%;
+        margin-bottom: -1rem;
+    }
+
+    .core-container {
+        width: 280px;
+        height: 280px;
+    }
+
+    .core-main {
+        width: 140px;
+        height: 140px;
+    }
+
+    /* Compact Module Navigation for Mobile */
+    .modules-grid-wrapper {
+        width: 100vw;
+        margin-left: -2rem;
+        /* Counteract section padding */
+        padding: 0 2rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        /* Hide scrollbar */
+    }
+
+    .modules-grid-wrapper::-webkit-scrollbar {
+        display: none;
+    }
+
+    .modules-grid {
+        display: flex;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        width: max-content;
+        /* Ensure horizontal layout */
+    }
+
+    .module-card {
+        min-width: 140px;
+        width: 140px;
+        height: auto;
+        /* Allow auto height */
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    .module-icon {
+        font-size: 2rem;
+    }
+
+    .module-info h3 {
+        font-size: 0.9rem;
+    }
+
+    .module-info p {
+        display: none;
+        /* Hide description on mobile for compactness */
+    }
+
+    /* Character Creation Mobile */
+    .approaches-grid {
+        grid-template-columns: repeat(3, 1fr);
+        /* 3 per row as requested */
+    }
+
+    .approach-btn {
+        padding: 1rem 0.5rem;
+    }
+
+    .btn-icon {
+        font-size: 1.5rem;
+    }
+
+    .btn-label {
+        font-size: 0.8rem;
+    }
+}
+
+
+
+@media (max-width: 768px) {
+
+    /* Split Layout Container */
+    .mobile-split-layout {
+        display: flex;
+        align-items: flex-start;
+        /* Align to top */
+        gap: 1rem;
+        width: 100%;
+        overflow: hidden;
+        /* Prevent horizontal scroll on body */
+        padding-top: 1rem;
+        /* Slight offset from very top */
+    }
+
+    /* Left Column: Goal Tabs */
+    .goal-categories {
+        flex: 0 0 40%;
+        /* Take up approx 40% of width */
+        max-width: 40%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .goal-tabs {
+        display: flex;
+        flex-direction: column;
+        /* Vertical stack */
+        gap: 0.85rem;
+        /* Increased spacing */
+        background: transparent;
+        border-radius: 0;
+        padding: 0;
+        align-items: flex-start;
+        /* Left align text */
+        overflow-y: auto;
+        max-height: 500px;
+        /* Limit height */
+    }
+
+    .goal-tab {
+        width: 100%;
+        text-align: left;
+        padding: 0.85rem 1rem;
+        /* Bigger touch target */
+        font-size: 0.95rem;
+        /* Slightly larger text */
+        background: transparent;
+        border: none;
+        color: var(--text-secondary);
+        border-radius: 12px;
+        white-space: normal;
+        /* Allow text wrap */
+        line-height: 1.3;
+    }
+
+    .goal-tab:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .goal-tab.active {
+        background: rgba(255, 255, 255, 0.1);
+        /* Subtle active bg */
+        color: var(--text-primary);
+        font-weight: 500;
+        box-shadow: none;
+        /* Remove heavy shadow */
+    }
+
+    /* Right Column: Character Carousel */
+    .character-grid-section {
+        flex: 1;
+        /* Take remaining space */
+        min-width: 0;
+        /* Allow shrinking below content size */
+        padding-top: 1rem;
+        /* Align deeply with tabs */
+    }
+
+    .character-cards-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 1rem;
+        padding-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .character-cards-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .guide-card {
+        flex: 0 0 100%;
+        width: 100%;
+        scroll-snap-align: center;
+        margin: 0;
+        background: transparent;
+        /* Clean look */
+        border: none;
+    }
+
+    .guide-card:hover {
+        /* Disable hover lift on mobile */
+        transform: none;
+        box-shadow: none;
+    }
+
+    .guide-image {
+        width: 100%;
+        height: auto !important;
+        /* Override desktop fixed height */
+        aspect-ratio: 3 / 4;
+        /* Portrait ratio like desktop */
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+        border: 1px solid var(--glass-border);
+    }
+
+    .guide-image img {
+        height: 100% !important;
+        /* Force fill */
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .guide-info {
+        padding: 0.5rem 0;
+        background: transparent;
+        text-align: left;
+    }
+
+    .guide-name {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }
+
+    .guide-desc {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        line-height: 1.4;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* Limit text lines */
+        line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Carousel Dots (Centered under the right column) */
+    .carousel-dots {
+        display: flex;
+        justify-content: center;
+        gap: 0.4rem;
+        margin-top: 0;
+    }
+
+    .carousel-dots .dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    /* Therapy Grid (Force 3 columns on mobile) */
+    .therapy-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem;
+    }
+
+    .therapy-card {
+        padding: 0.75rem 0.5rem;
+        min-height: auto;
+        /* Remove minimum height if set */
+    }
+
+    .therapy-card h3 {
+        font-size: 0.9rem;
+        /* Smaller text */
+        margin-bottom: 0.25rem;
+    }
+
+    .therapy-card p {
+        font-size: 0.7rem;
+        line-height: 1.2;
+        display: none;
+        /* Hide full text description on very small screens if needed, or keep small */
+    }
+
+    .therapy-icon {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .therapy-desc {
+        display: none;
+        /* Hide extra description to save space in 3-col layout */
+    }
+
+    /* Approach Grid (Strictly 3 columns) */
+    .approach-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.5rem;
+    }
+
+    .approach-btn {
+        padding: 0.5rem 0.25rem;
+    }
+
+    .approach-btn span:not(.approach-icon) {
+        font-size: 0.7rem;
+        /* Smaller text for 3-col */
+    }
+}
+
+/* Base styles for dots (hidden on desktop) */
+.carousel-dots {
+    display: none;
 }
