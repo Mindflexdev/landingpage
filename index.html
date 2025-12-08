@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="ai.therapy - Your personal AI therapy companion. Experience transformative mental wellness with our cinematic, immersive platform featuring personalized AI therapists.">
+    <title>ai.therapy | Your Personal AI Therapy Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Ambient Background Elements -->
+    <div class="ambient-bg">
+        <div class="gradient-layer"></div>
+        <div class="orbs-container" id="orbsContainer"></div>
+        <div class="particles-container" id="particlesContainer"></div>
+        <div class="feathers-container" id="feathersContainer"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-glass">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <div class="logo-orb"></div>
+                <span>ai.therapy</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#therapy-styles">Therapy Styles</a></li>
+                <li><a href="#character-forge">Create Avatar</a></li>
+                <li><a href="#about">About</a></li>
+            </ul>
+            <a href="#" class="nav-cta">Begin Your Journey</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-header">
+
+            <h1 class="hero-title">
+                <span class="title-line">Your Mind Deserves</span>
+                <span class="title-line gradient-text">A Gentle Guide</span>
+            </h1>
+
+        </div>
+
+        <!-- Goal Category Tabs -->
+        <div class="goal-categories">
+            <div class="goal-tabs">
+                <button class="goal-tab active" data-goal="sleep">Sleep better</button>
+                <button class="goal-tab" data-goal="performance">Enhance performance</button>
+                <button class="goal-tab" data-goal="self-worth">Develop self-worth</button>
+                <button class="goal-tab" data-goal="fears">Lose fears</button>
+                <button class="goal-tab" data-goal="stress">Reduce stress</button>
+                <button class="goal-tab" data-goal="happier">Be happier</button>
+                <button class="goal-tab" data-goal="grateful">Be more grateful</button>
+            </div>
+        </div>
+
+        <!-- Character Grid (3 characters) -->
+        <div class="character-grid-section">
+            <div class="character-cards-grid">
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="midnight-cat.png" alt="Midnight Cat">
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Midnight Cat</h3>
+                        <p class="guide-desc">Wise feline who teaches the art of perfect napping.</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="dr-nightingale.png" alt="Dr. Nightingale">
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Dr. Nightingale</h3>
+                        <p class="guide-desc">Compassionate sleep medicine specialist with 20 years experience.</p>
+                    </div>
+                </div>
+
+                <div class="guide-card">
+                    <div class="guide-image">
+                        <img src="sleepy-bear.png" alt="Sleepy Bear">
+                    </div>
+                    <div class="guide-info">
+                        <h3 class="guide-name">Sleepy Bear</h3>
+                        <p class="guide-desc">Cozy hibernation expert who knows all about deep, restful sleep.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Therapy Style Selector -->
+    <section class="therapy-styles" id="therapy-styles">
+        <div class="section-header">
+            <span class="section-tag">Therapeutic Approaches</span>
+            <h2 class="section-title">Choose Your <span class="gradient-text">Healing Path</span></h2>
+            <p class="section-subtitle">
+                Explore evidence-based therapy modalities tailored to your unique needs
+            </p>
+        </div>
+
+        <div class="therapy-grid">
+            <div class="therapy-card" data-therapy="cbt">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🧠</div>
+                    <h3>CBT</h3>
+                    <p>Cognitive Behavioral Therapy</p>
+                    <span class="therapy-desc">Reshape thought patterns and behaviors</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="act">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🎯</div>
+                    <h3>ACT</h3>
+                    <p>Acceptance & Commitment</p>
+                    <span class="therapy-desc">Embrace values-driven living</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="dbt">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">⚖️</div>
+                    <h3>DBT</h3>
+                    <p>Dialectical Behavior Therapy</p>
+                    <span class="therapy-desc">Balance emotion & wisdom</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="psychodynamic">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🔮</div>
+                    <h3>Psychodynamic</h3>
+                    <p>Deep Unconscious Work</p>
+                    <span class="therapy-desc">Explore your inner landscape</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="humanistic">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🌱</div>
+                    <h3>Humanistic</h3>
+                    <p>Person-Centered Approach</p>
+                    <span class="therapy-desc">Unlock your full potential</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="schema">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🗝️</div>
+                    <h3>Schema</h3>
+                    <p>Pattern Recognition Therapy</p>
+                    <span class="therapy-desc">Heal core emotional wounds</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="gestalt">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">👁️</div>
+                    <h3>Gestalt</h3>
+                    <p>Present-Moment Awareness</p>
+                    <span class="therapy-desc">Experience the here and now</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="somatic">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">✨</div>
+                    <h3>Somatic</h3>
+                    <p>Body-Mind Integration</p>
+                    <span class="therapy-desc">Release stored tension</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="systemic">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🔄</div>
+                    <h3>Systemic</h3>
+                    <p>Family & Relationships</p>
+                    <span class="therapy-desc">Heal relational dynamics</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="mbct">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🧘</div>
+                    <h3>MBCT</h3>
+                    <p>Mindfulness-Based Cognitive</p>
+                    <span class="therapy-desc">Cultivate inner peace</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="psychoanalysis">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">🛋️</div>
+                    <h3>Psychoanalysis</h3>
+                    <p>Deep Self-Exploration</p>
+                    <span class="therapy-desc">Understand your psyche</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+
+            <div class="therapy-card" data-therapy="eft">
+                <div class="card-glow"></div>
+                <div class="card-content">
+                    <div class="therapy-icon">💖</div>
+                    <h3>EFT</h3>
+                    <p>Emotionally Focused</p>
+                    <span class="therapy-desc">Transform emotional bonds</span>
+                </div>
+                <div class="holographic-border"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Character Forge Section -->
+    <section class="character-forge" id="character-forge">
+        <div class="forge-background">
+            <div class="forge-orbs"></div>
+        </div>
+
+        <div class="section-header">
+            <span class="section-tag">Avatar Forge</span>
+            <h2 class="section-title">Create Your <span class="gradient-text">Perfect Guide</span></h2>
+            <p class="section-subtitle">
+                Design a therapeutic companion that resonates with your soul
+            </p>
+        </div>
+
+        <div class="forge-container-simple">
+            <!-- Name Your Guide (moved to top) -->
+            <div class="control-group">
+                <h4>Name Your Guide</h4>
+                <input type="text" id="avatarName" placeholder="Enter a name for your guide..." class="name-input-full">
+            </div>
+
+            <div class="control-group">
+                <h4>Therapeutic Approach</h4>
+                <div class="approach-grid">
+                    <button class="approach-btn active" data-approach="cbt">
+                        <span class="approach-icon">🧠</span>
+                        <span>CBT</span>
+                    </button>
+                    <button class="approach-btn" data-approach="act">
+                        <span class="approach-icon">🎯</span>
+                        <span>ACT</span>
+                    </button>
+                    <button class="approach-btn" data-approach="dbt">
+                        <span class="approach-icon">⚖️</span>
+                        <span>DBT</span>
+                    </button>
+                    <button class="approach-btn" data-approach="psychodynamic">
+                        <span class="approach-icon">🔮</span>
+                        <span>Psychodynamic</span>
+                    </button>
+                    <button class="approach-btn" data-approach="humanistic">
+                        <span class="approach-icon">🌱</span>
+                        <span>Humanistic</span>
+                    </button>
+                    <button class="approach-btn" data-approach="schema">
+                        <span class="approach-icon">🗝️</span>
+                        <span>Schema</span>
+                    </button>
+                    <button class="approach-btn" data-approach="gestalt">
+                        <span class="approach-icon">👁️</span>
+                        <span>Gestalt</span>
+                    </button>
+                    <button class="approach-btn" data-approach="somatic">
+                        <span class="approach-icon">✨</span>
+                        <span>Somatic</span>
+                    </button>
+                    <button class="approach-btn" data-approach="systemic">
+                        <span class="approach-icon">🔄</span>
+                        <span>Systemic</span>
+                    </button>
+                    <button class="approach-btn" data-approach="mbct">
+                        <span class="approach-icon">🧘</span>
+                        <span>MBCT</span>
+                    </button>
+                    <button class="approach-btn" data-approach="psychoanalysis">
+                        <span class="approach-icon">🛋️</span>
+                        <span>Psychoanalysis</span>
+                    </button>
+                    <button class="approach-btn" data-approach="eft">
+                        <span class="approach-icon">💖</span>
+                        <span>EFT</span>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="control-group">
+                <h4>Describe Your Character</h4>
+                <textarea id="characterDescription" class="description-textarea"
+                    placeholder="Describe your ideal therapeutic guide... What qualities do they have? How do they speak? What makes them special to you?"></textarea>
+            </div>
+
+            <button class="forge-cta">
+                <span class="cta-icon">✨</span>
+                <span>Bring to Life</span>
+                <div class="cta-glow"></div>
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-glow"></div>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo-orb"></div>
+                <span>ai.therapy</span>
+                <p>Transforming mental wellness through compassionate AI</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Platform</h5>
+                    <a href="#">Features</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Security</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Resources</h5>
+                    <a href="#">Blog</a>
+                    <a href="#">Research</a>
+                    <a href="#">Community</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Support</h5>
+                    <a href="#">Help Center</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Crisis Line</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 ai.therapy. Healing begins here.</p>
+        </div>
+    </footer>
+
+    <!-- Therapy Detail Modal -->
+    <div class="therapy-modal" id="therapyModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div class="modal-header">
+                <span class="modal-label">Learn More</span>
+                <h2 class="modal-title" id="modalTitle">Cognitive Behavioral Therapy (CBT)</h2>
+                <p class="modal-tagline" id="modalTagline">"Change your thoughts, change your life."</p>
+            </div>
+            <div class="modal-body">
+                <div class="modal-section">
+                    <h4><span class="section-icon">💡</span> What is it?</h4>
+                    <p id="modalWhatIsIt">Our thoughts, feelings, and behaviors are interconnected. By changing negative
+                        thought patterns, we can change how we feel and act.</p>
+                </div>
+                <div class="modal-section">
+                    <h4><span class="section-icon">🕐</span> Origins</h4>
+                    <p><strong>Inventor:</strong> <span id="modalInventor">Aaron Beck</span></p>
+                    <p><strong>Era:</strong> <span id="modalEra">1960s</span></p>
+                    <p id="modalOriginDesc">Beck noticed his depressed patients had automatic negative thoughts. He
+                        realized identifying and challenging these thoughts could alleviate symptoms.</p>
+                </div>
+                <div class="modal-section">
+                    <h4><span class="section-icon">❤️</span> Best For</h4>
+                    <div class="modal-tags" id="modalBestFor">
+                        <span class="modal-tag">Anxiety & Depression</span>
+                        <span class="modal-tag">Phobias</span>
+                        <span class="modal-tag">OCD</span>
+                        <span class="modal-tag">Sleep disorders</span>
+                    </div>
+                </div>
+                <div class="modal-section">
+                    <h4><span class="section-icon">📋</span> Key Techniques</h4>
+                    <ul class="modal-techniques" id="modalTechniques">
+                        <li>Cognitive restructuring</li>
+                        <li>Exposure therapy</li>
+                        <li>Behavioral experiments</li>
+                        <li>Thought records</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
