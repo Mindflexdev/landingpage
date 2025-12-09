@@ -2177,7 +2177,7 @@ body {
     }
 
     .guide-image {
-        height: 160px;
+        height: 200px;
         /* Smaller image */
         object-fit: contain;
         /* Ensure full image visibility */
@@ -2212,7 +2212,7 @@ body {
     }
 
     .hero {
-        padding-top: 3.5rem;
+        padding-top: 6rem;
         /* Moved up */
     }
 
