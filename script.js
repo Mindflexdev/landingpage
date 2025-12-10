@@ -1,6 +1,8 @@
 // ===== ai.therapy Landing Page JavaScript =====
 
 document.addEventListener('DOMContentLoaded', () => {
+    initThemeToggle();
+    initLangToggle();
     initGoalTabs();
     initFloatingElements();
     initTherapyCards();
@@ -9,6 +11,207 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initCarouselScroll();
 });
+
+// ===== Theme Toggle =====
+function initThemeToggle() {
+    const toggle = document.getElementById('themeToggle');
+    if (!toggle) return;
+
+    // Check for saved preference - default to LIGHT mode
+    const savedTheme = localStorage.getItem('theme');
+
+    // Default to light mode if no preference saved
+    if (savedTheme === 'dark') {
+        document.body.classList.remove('light-mode');
+        toggle.textContent = '☀️'; // Show sun to switch to light
+    } else {
+        document.body.classList.add('light-mode');
+        toggle.textContent = '🌙'; // Show moon to switch to dark
+    }
+
+    toggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+
+        // Save preference and update icon
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        toggle.textContent = isLight ? '🌙' : '☀️';
+    });
+}
+
+// ===== Language Toggle =====
+function initLangToggle() {
+    const toggle = document.getElementById('langToggle');
+    if (!toggle) return;
+
+    // Check for saved language - default to English
+    let currentLang = localStorage.getItem('lang') || 'en';
+
+    // Show opposite language to switch to
+    toggle.textContent = currentLang === 'en' ? 'DE' : 'EN';
+    applyLanguage(currentLang);
+
+    toggle.addEventListener('click', () => {
+        currentLang = currentLang === 'en' ? 'de' : 'en';
+        toggle.textContent = currentLang === 'en' ? 'DE' : 'EN';
+        localStorage.setItem('lang', currentLang);
+        applyLanguage(currentLang);
+    });
+}
+
+function applyLanguage(lang) {
+    // Update all elements with data-en and data-de attributes
+    document.querySelectorAll('[data-en][data-de]').forEach(el => {
+        el.textContent = el.dataset[lang];
+    });
+
+    // Update goal tabs
+    const goalTranslations = {
+        'Sleep better': { de: 'Besser schlafen' },
+        'Enhance performance': { de: 'Leistung steigern' },
+        'Develop self-worth': { de: 'Selbstwert entwickeln' },
+        'Lose fears': { de: 'Ängste überwinden' },
+        'Reduce stress': { de: 'Stress reduzieren' },
+        'Be happier': { de: 'Glücklicher sein' },
+        'Be more grateful': { de: 'Dankbarer sein' }
+    };
+
+    document.querySelectorAll('.goal-tab').forEach(tab => {
+        const enText = tab.dataset.goalEn || tab.textContent.trim();
+        if (!tab.dataset.goalEn) tab.dataset.goalEn = enText;
+
+        if (lang === 'de' && goalTranslations[enText]) {
+            tab.textContent = goalTranslations[enText].de;
+        } else if (lang === 'en' && tab.dataset.goalEn) {
+            tab.textContent = tab.dataset.goalEn;
+        }
+    });
+
+    // Update character descriptions
+    updateCharacterDescriptions(lang);
+}
+
+// Complete character description translations (English -> German)
+const characterDescTranslations = {
+    // Sleep Better Characters
+    'ethereal guide who illuminates your path to restful sleep': 'Ätherische Führerin, die deinen Weg zu erholsamem Schlaf erhellt',
+    'ancient dream wizard specializing in sleep hypnosis': 'Uralter Traumzauberer, spezialisiert auf Schlaf-Hypnose',
+    'mystical being who brings peaceful dreams to troubled minds': 'Mystisches Wesen, das friedliche Träume in unruhige Gedanken bringt',
+    'mysterious feline who prowls the realm of peaceful slumber': 'Mysteriöse Katze, die durch das Reich des friedlichen Schlummers streift',
+    'compassionate sleep medicine specialist with decades of experience': 'Mitfühlende Schlafmedizin-Spezialistin mit jahrzehntelanger Erfahrung',
+    'cozy hibernation expert who knows all about deep, restful sleep': 'Gemütlicher Winterschlaf-Experte, der alles über tiefen, erholsamen Schlaf weiß',
+
+    // Performance Characters
+    'dynamic coach who ignites your inner fire for peak performance': 'Dynamischer Coach, der dein inneres Feuer für Höchstleistungen entfacht',
+    'sharp-eyed mentor who helps you see opportunities others miss': 'Scharfäugiger Mentor, der dir hilft, Chancen zu sehen, die andere übersehen',
+    'goddess of wisdom and strategic thinking': 'Göttin der Weisheit und des strategischen Denkens',
+    'peak performance psychologist specializing in achieving flow states': 'Spitzenleistungs-Psychologe, spezialisiert auf das Erreichen von Flow-Zuständen',
+    'speed and efficiency expert who teaches laser-sharp focus': 'Geschwindigkeits- und Effizienz-Experte, der messerscharfen Fokus lehrt',
+    'resilient spirit rising from challenges stronger than before': 'Widerstandsfähiger Geist, der stärker aus Herausforderungen hervorgeht',
+
+    // Self-Worth Characters
+    'colorful bird who teaches healthy pride and self-expression': 'Bunter Vogel, der gesunden Stolz und Selbstausdruck lehrt',
+    'graceful therapist who helps you embrace your authentic self': 'Anmutige Therapeutin, die dir hilft, dein authentisches Selbst anzunehmen',
+    'majestic lion who teaches you to recognize your inner strength': 'Majestätischer Löwe, der dir beibringt, deine innere Stärke zu erkennen',
+    'wise sage who helps you see your true reflection': 'Weiser Mentor, der dir hilft, dein wahres Spiegelbild zu sehen',
+    'radiant being who helps you discover your inner light': 'Strahlendes Wesen, das dir hilft, dein inneres Licht zu entdecken',
+    'warm presence who helps you shine with confidence': 'Warme Präsenz, die dir hilft, mit Selbstvertrauen zu strahlen',
+
+    // Lose Fears Characters
+    'courageous warrior who helps you face your deepest fears': 'Mutiger Krieger, der dir hilft, deine tiefsten Ängste zu überwinden',
+    'mysterious guide who helps you befriend your shadow': 'Mysteriöser Führer, der dir hilft, deinen Schatten anzufreunden',
+    'ancient wisdom keeper who sees beyond surface fears': 'Uralter Weisheitshüter, der hinter oberflächliche Ängste blickt',
+    'gentle therapist specializing in phobias and anxiety disorders': 'Einfühlsame Therapeutin, spezialisiert auf Phobien und Angststörungen',
+    'pack leader who shows you strength in vulnerability': 'Rudelführer, der dir Stärke in der Verletzlichkeit zeigt',
+    'bold healer who helps you transform fear into power': 'Mutiger Heiler, der dir hilft, Angst in Kraft zu verwandeln',
+
+    // Reduce Stress Characters
+    'floating spirit who teaches the art of letting go': 'Schwebender Geist, der die Kunst des Loslassens lehrt',
+    'slow-living expert who teaches the art of relaxation': 'Slow-Living-Experte, der die Kunst der Entspannung lehrt',
+    'grounded presence who teaches stability in chaos': 'Geerdete Präsenz, die Stabilität im Chaos lehrt',
+    'peaceful ocean dweller who teaches emotional regulation': 'Friedlicher Meeresbewohner, der emotionale Regulation lehrt',
+    'tranquil healer specializing in stress and burnout': 'Ruhige Heilerin, spezialisiert auf Stress und Burnout',
+    'ancient monk who teaches mindfulness and present-moment awareness': 'Uralter Mönch, der Achtsamkeit und Gegenwartsbewusstsein lehrt',
+
+    // Be Happier Characters
+    'colorful wizard who creates joy wherever he goes': 'Bunter Zauberer, der überall Freude verbreitet',
+    'positive psychology expert who teaches the science of happiness': 'Experte für positive Psychologie, der die Wissenschaft des Glücks lehrt',
+    'joyful dog who shows you how to find delight in simple moments': 'Fröhlicher Hund, der dir zeigt, wie du Freude in einfachen Momenten findest',
+    'gentle flower spirit who helps happiness bloom within you': 'Sanfter Blumengeist, der dir hilft, Glück in dir erblühen zu lassen',
+    'melodic guide who teaches you to find your song of joy': 'Melodischer Führer, der dir hilft, dein Lied der Freude zu finden',
+    'radiant spark who ignites lasting joy in your heart': 'Strahlender Funke, der dauerhafte Freude in deinem Herzen entzündet',
+
+    // Be More Grateful Characters
+    'magical being who reveals abundance all around you': 'Magisches Wesen, das den Reichtum um dich herum enthüllt',
+    'patient turtle who teaches slow appreciation of life': 'Geduldige Schildkröte, die langsame Wertschätzung des Lebens lehrt',
+    'serene guide who helps you recognize life\'s blessings': 'Ruhige Führerin, die dir hilft, die Segnungen des Lebens zu erkennen',
+    'divine messenger who helps you see gifts in every moment': 'Göttlicher Bote, der dir hilft, Geschenke in jedem Moment zu sehen',
+    'gratitude researcher who teaches appreciation practices': 'Dankbarkeits-Forscher, der Wertschätzungspraktiken lehrt',
+    'nurturing spirit who teaches gratitude for life\'s harvest': 'Nährender Geist, der Dankbarkeit für die Ernte des Lebens lehrt',
+
+    // Generic fallback patterns
+    'personalized ai therapy companion': 'Persönlicher KI-Therapie-Begleiter',
+    'your personal ai guide': 'Dein persönlicher KI-Begleiter'
+};
+
+function updateCharacterDescriptions(lang) {
+    document.querySelectorAll('.guide-desc').forEach(desc => {
+        const originalText = desc.dataset.originalEn || desc.textContent.trim();
+
+        // Store original English text
+        if (!desc.dataset.originalEn) {
+            desc.dataset.originalEn = originalText;
+        }
+
+        if (lang === 'de') {
+            // Find translation (case-insensitive match)
+            const lowerText = originalText.toLowerCase();
+            let translation = null;
+            let bestMatchLength = 0;
+
+            // Find the best matching translation (longest match wins)
+            for (const [key, value] of Object.entries(characterDescTranslations)) {
+                const keyLower = key.toLowerCase();
+
+                // Check if the description starts with or contains this key
+                if (lowerText.startsWith(keyLower) || lowerText.includes(keyLower)) {
+                    if (keyLower.length > bestMatchLength) {
+                        translation = value;
+                        bestMatchLength = keyLower.length;
+                    }
+                }
+                // Also check if key contains the first 25 chars of description
+                else if (keyLower.includes(lowerText.substring(0, 25))) {
+                    if (lowerText.length > bestMatchLength) {
+                        translation = value;
+                        bestMatchLength = lowerText.length;
+                    }
+                }
+            }
+
+            // Generic fallback: translate common patterns
+            if (!translation) {
+                translation = originalText
+                    .replace(/who teaches/gi, 'der lehrt')
+                    .replace(/who helps/gi, 'der hilft')
+                    .replace(/who guides/gi, 'der führt')
+                    .replace(/who shows/gi, 'der zeigt')
+                    .replace(/expert/gi, 'Experte')
+                    .replace(/specialist/gi, 'Spezialist')
+                    .replace(/companion/gi, 'Begleiter')
+                    .replace(/therapy/gi, 'Therapie')
+                    .replace(/personalized/gi, 'Personalisiert')
+                    .replace(/peaceful/gi, 'friedlich')
+                    .replace(/gentle/gi, 'sanft')
+                    .replace(/wisdom/gi, 'Weisheit');
+            }
+
+            desc.textContent = translation;
+        } else {
+            desc.textContent = desc.dataset.originalEn;
+        }
+    });
+}
 
 // ===== Shared Data & Modal Logic =====
 // Define therapyData globally so both cards and engine can access it
@@ -142,6 +345,142 @@ const therapyData = {
         originDesc: 'Developed to help patients who could understand the logic of CBT but still felt "bad" emotionally due to high shame.',
         bestFor: ['Shame', 'Self-criticism', 'Trauma', 'Depression'],
         techniques: ['Compassionate mind training', 'Soothing rhythm breathing', 'Safe place imagery', 'Compassionate self']
+    },
+    // === Detailed Sub-Nodes ===
+    // Psychodynamic Sub-nodes
+    shadow: {
+        title: 'Shadow Work',
+        tagline: '"Making the darkness conscious."',
+        whatIsIt: 'The process of exploring the "shadow"—the suppressed, rejected, or denied parts of the personality—to achieve wholeness.',
+        inventor: 'Carl Jung',
+        era: '1900s',
+        originDesc: 'Jung belived that "until you make the unconscious conscious, it will direct your life and you will call it fate."',
+        bestFor: ['Self-acceptance', 'Inner conflict', 'Creativity', 'Personal integration'],
+        techniques: ['Active imagination', 'Journaling', 'Dream work', 'Dialogue with the shadow']
+    },
+    dreams: {
+        title: 'Dream Analysis',
+        tagline: '"The royal road to the unconscious."',
+        whatIsIt: 'Interpreting the symbols and narratives of dreams to reveal unconscious desires, fears, and conflicts.',
+        inventor: 'Sigmund Freud',
+        era: '1899',
+        originDesc: 'Freud published "The Interpretation of Dreams", proposing that dreams are wish fulfillments used by the unconscious to resolve conflict.',
+        bestFor: ['Insight', 'Recurring nightmares', 'Self-discovery', 'Understanding hidden motives'],
+        techniques: ['Free association to symbols', 'Amplification', 'Keeping a dream diary', 'Reality testing']
+    },
+    unconscious: {
+        title: 'The Unconscious',
+        tagline: '"The submerged part of the iceberg."',
+        whatIsIt: 'Working with the vast reservoir of feelings, thoughts, and memories that are outside of our conscious awareness but influence behavior.',
+        inventor: 'Freud/Jung',
+        era: 'Late 19th Century',
+        originDesc: 'The core concept of depth psychology: that we are driven by forces we do not immediately recognize.',
+        bestFor: ['Deep-seated patterns', 'Inexplicable behaviors', 'Triggers', 'Automatic reactions'],
+        techniques: ['Free association', 'Hypnosis', 'Projective tests', 'Slips of the tongue analysis']
+    },
+    attachment: {
+        title: 'Attachment Theory',
+        tagline: '"How we bond defines how we relate."',
+        whatIsIt: 'Examining early bonds with caregivers to understand current relationship anxiety, avoidance, or security.',
+        inventor: 'John Bowlby',
+        era: '1950s',
+        originDesc: 'Bowlby observed the distress of children separated from parents, formulating that secure attachment is a primary survival need.',
+        bestFor: ['Relationship issues', 'Fear of abandonment', 'Intimacy struggles', 'Trust issues'],
+        techniques: ['Identifying attachment style', 'Reparenting', 'Earned security', 'Corrective emotional experience']
+    },
+    // CBT Sub-nodes
+    restructuring: {
+        title: 'Cognitive Restructuring',
+        tagline: '"Rewire your thinking."',
+        whatIsIt: 'The process of learning to identify and dispute irrational or maladaptive thoughts known as cognitive distortions.',
+        inventor: 'Albert Ellis / Aaron Beck',
+        era: '1960s',
+        originDesc: 'The core technique of CBT, based on the idea that it is not events that upset us, but our view of them.',
+        bestFor: ['Negative self-talk', 'Catastrophizing', 'Anxiety', 'Depression'],
+        techniques: ['Socratic questioning', 'Evidence gathering', 'Thought records', 'Alternative perspective taking']
+    },
+    exposure: {
+        title: 'Exposure Therapy',
+        tagline: '"Face the fear to fade the fear."',
+        whatIsIt: 'Gradually and systematically exposing oneself to feared situations or objects in a safe environment to reduce anxiety.',
+        inventor: 'Behaviorists (Wolpe)',
+        era: '1950s',
+        originDesc: 'Based on Pavlovian extinction: if the feared stimulus occurs without a negative outcome, the fear response weakens.',
+        bestFor: ['Phobias', 'PTSD', 'OCD', 'Social Anxiety'],
+        techniques: ['Graded exposure ladder', 'Flooding', 'Response prevention', 'Imaginal exposure']
+    },
+    logic: {
+        title: 'Rational Logic',
+        tagline: '"Thinking clearly, feeling better."',
+        whatIsIt: 'Using logic and evidence to test the validity of emotional conclusions and reduce emotional reasoning.',
+        inventor: 'Stoic Philosophers / CBT',
+        era: 'Ancient/Modern',
+        originDesc: 'Inspired by Stoicism ("Man is disturbed not by things, but by the views he takes of them"), applied to modern therapy.',
+        bestFor: ['Emotional regulation', 'Decision making', 'Reducing impulsivity', 'Clarifying values'],
+        techniques: ['Cost-benefit analysis', 'Pie charts', 'Defining terms', 'Logical disputation']
+    },
+    behavioral: {
+        title: 'Behavioral Activation',
+        tagline: '"Action precedes motivation."',
+        whatIsIt: 'A therapeutic intervention that encourages engaging in activities that are pleasurable or meaningful to lift mood.',
+        inventor: 'Peter Lewinsohn',
+        era: '1970s',
+        originDesc: 'Developed when researchers noticed that depressed people stop getting positive reinforcement from their environment.',
+        bestFor: ['Depression', 'Lethargy', 'Motivation issues', 'Social withdrawal'],
+        techniques: ['Activity scheduling', 'Graded tasks', 'Pleasure/Mastery rating', 'Breaking cycles']
+    },
+    // Humanistic Sub-nodes
+    empathy: {
+        title: 'Radical Empathy',
+        tagline: '"Feeling with, not just looking at."',
+        whatIsIt: 'The therapist\'s sensitive ability and willingness to understand the client\'s thoughts, feelings, and struggles from the client\'s point of view.',
+        inventor: 'Carl Rogers',
+        era: '1950s',
+        originDesc: 'Rogers posited empathy as one of the specialized conditions necessary for therapeutic change to occur.',
+        bestFor: ['Building trust', 'Feeling heard', 'Reducing shame', 'Emotional processing'],
+        techniques: ['Reflective listening', 'Validation', 'Mirroring', 'Resonance']
+    },
+    self: {
+        title: 'The True Self',
+        tagline: '"Becoming who you truly are."',
+        whatIsIt: 'Moving away from "masks" and "shoulds" to uncover and live from one\'s authentic core.',
+        inventor: 'Søren Kierkegaard / Rogers',
+        era: '19th/20th Century',
+        originDesc: 'Based on the existential idea that anxiety often comes from living inauthentically or trying to please others.',
+        bestFor: ['Identity crisis', 'People pleasing', 'Purpose', 'Authenticity'],
+        techniques: ['Values alignment', 'Discarding false selves', 'Inner voice listening', 'Congruence']
+    },
+    // Systemic Sub-nodes
+    family: {
+        title: 'Family Systems',
+        tagline: '"The whole is greater than the parts."',
+        whatIsIt: 'Visualizing the family as an emotional unit. Change in one person inevitably triggers change in others.',
+        inventor: 'Murray Bowen',
+        era: '1960s',
+        originDesc: 'Bowen Theory posits that individuals cannot be understood in isolation from one another.',
+        bestFor: ['Family conflict', 'Boundaries', 'Differentiation', 'Inherited patterns'],
+        techniques: ['Genograms', 'Triangulation identification', 'De-triangulation', 'differentiation of self']
+    },
+    context: {
+        title: 'Contextual Therapy',
+        tagline: '"Fairness across generations."',
+        whatIsIt: 'Focuses on the ethical dimension of family relationships, fairness, and "ledgers" of entitlement and indebtedness.',
+        inventor: 'Ivan Boszormenyi-Nagy',
+        era: '1970s',
+        originDesc: 'Emphasizes that trust is the fundamental glue of relationships and is built through fairness and accountability.',
+        bestFor: ['Intergenerational trauma', 'Loyalty conflicts', 'Divorce', 'Estrangement'],
+        techniques: ['Multidirected partiality', 'Exoneration', 'Rebalancing ledgers', 'Legacy work']
+    },
+    // Gestalt Sub-nodes
+    awareness: {
+        title: 'Awareness',
+        tagline: '"Notice what is happening now."',
+        whatIsIt: 'The practice of staying in contact with the present moment—sensations, feelings, and thoughts—without judgment.',
+        inventor: 'Fritz Perls',
+        era: '1950s',
+        originDesc: 'The core of Gestalt ("The only time is now"). Change happens when one becomes what he is, not what he tries to be.',
+        bestFor: ['Disconnection', 'Numbness', 'Over-thinking', 'Grounding'],
+        techniques: ['"What are you aware of?"', 'Body scanning', 'Sensory grounding', 'Exaggeration']
     }
 };
 
@@ -182,12 +521,260 @@ function closeModal() {
 }
 
 // ===== Goal Tabs =====
-function initGoalTabs() {
+// ===== Supabase Integration =====
+const supabaseUrl = 'https://cxzzakslsiynhjeyhejo.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN4enpha3Nsc2l5bmhqZXloZWpvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ4Mzk3ODcsImV4cCI6MjA4MDQxNTc4N30.ve5Vijc954mg-OVHwj3HCF1cfE3Lkm2zMECWUlJWE7Y';
+// Access the global supabase object from the CDN script
+const supabaseClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+async function fetchAndProcessCharacters() {
+    console.log('Starting character fetch...');
+
+    // Character category mapping
+    const characterConfig = {
+        // Sleep Better (6)
+        'luna starlight': { category: 'sleep', priority: 0 },
+        'dr. morpheus': { category: 'sleep', priority: 1 },
+        'sandman': { category: 'sleep', priority: 2 },
+        'midnight cat': { category: 'sleep', priority: 3 },
+        'dr. nightingale': { category: 'sleep', priority: 4 },
+        'sleepy bear': { category: 'sleep', priority: 5 },
+
+        // Enhance Performance (6)
+        'coach thunder': { category: 'performance', priority: 0 },
+        'eagle eye': { category: 'performance', priority: 1 },
+        'athena': { category: 'performance', priority: 2 },
+        'marcus flow': { category: 'performance', priority: 3 },
+        'cheetah sprint': { category: 'performance', priority: 4 },
+        'phoenix rising': { category: 'performance', priority: 5 },
+
+        // Develop Self-Confidence (6)
+        'proud peacock': { category: 'self-worth', priority: 0 },
+        'dr. grace chen': { category: 'self-worth', priority: 1 },
+        'golden lion': { category: 'self-worth', priority: 2 },
+        'mirror sage': { category: 'self-worth', priority: 3 },
+        'inner light': { category: 'self-worth', priority: 4 },
+        'sofia bright': { category: 'self-worth', priority: 5 },
+
+        // Lose Fears (6)
+        'brave knight': { category: 'fears', priority: 0 },
+        'shadow walker': { category: 'fears', priority: 1 },
+        'wise owl': { category: 'fears', priority: 2 },
+        'maya calm': { category: 'fears', priority: 3 },
+        'fearless wolf': { category: 'fears', priority: 4 },
+        'dr. courage': { category: 'fears', priority: 5 },
+
+        // Reduce Stress (6)
+        'cloud spirit': { category: 'stress', priority: 0 },
+        'lazy sloth': { category: 'stress', priority: 1 },
+        'river stone': { category: 'stress', priority: 2 },
+        'calm dolphin': { category: 'stress', priority: 3 },
+        'dr. serenity': { category: 'stress', priority: 4 },
+        'zen master': { category: 'stress', priority: 5 },
+
+        // Be Happier (6)
+        'rainbow wizard': { category: 'happier', priority: 0 },
+        'dr. sunshine': { category: 'happier', priority: 1 },
+        'happy puppy': { category: 'happier', priority: 2 },
+        'lily bloom': { category: 'happier', priority: 3 },
+        'singing bird': { category: 'happier', priority: 4 },
+        'joy spark': { category: 'happier', priority: 5 },
+
+        // Be More Grateful (6)
+        'abundance elf': { category: 'grateful', priority: 0 },
+        'thankful turtle': { category: 'grateful', priority: 1 },
+        'grace waters': { category: 'grateful', priority: 2 },
+        'blessing angel': { category: 'grateful', priority: 3 },
+        'dr. thankful': { category: 'grateful', priority: 4 },
+        'harvest bear': { category: 'grateful', priority: 5 }
+    };
+
+    const goals = ['sleep', 'performance', 'self-worth', 'fears', 'stress', 'happier', 'grateful'];
+
+    // Try fetching from database table FIRST (has descriptions)
+    try {
+        console.log('Fetching from characters table...');
+        const { data: tableData, error: tableError } = await supabaseClient
+            .from('characters')
+            .select('*');
+
+        if (!tableError && tableData && tableData.length > 0) {
+            console.log(`Found ${tableData.length} characters in database table`);
+
+            const characters = tableData.map((char, index) => {
+                const name = char.name || 'AI Guide';
+                const lowerName = name.toLowerCase();
+                const config = characterConfig[lowerName];
+
+                let category, priority;
+                if (config) {
+                    category = config.category;
+                    priority = config.priority;
+                } else {
+                    category = goals[index % goals.length];
+                    priority = 99;
+                }
+
+                return {
+                    name: name,
+                    desc: char.description || 'Personalized AI Therapy Companion',
+                    img: char.image || '',
+                    category: category,
+                    priority: priority
+                };
+            });
+
+            characters.sort((a, b) => a.priority - b.priority);
+            return characters;
+        }
+    } catch (e) {
+        console.warn('Table fetch failed:', e);
+    }
+
+    // Fallback to storage bucket if table is empty
+    const bucketsToTry = ['characters', 'images', 'uploads', 'public'];
+
+    for (const bucket of bucketsToTry) {
+        try {
+            console.log(`Checking bucket: ${bucket}`);
+            const { data: files, error } = await supabaseClient.storage.from(bucket).list();
+
+            if (!error && files && files.length > 0) {
+                const validFiles = files.filter(f => !f.name.startsWith('.') && f.name.includes('.'));
+
+                if (validFiles.length > 0) {
+                    console.log(`Found ${validFiles.length} images in '${bucket}'`);
+
+                    const characters = validFiles.map((file, index) => {
+                        const fileName = file.name;
+                        const name = fileName.substring(0, fileName.lastIndexOf('.'))
+                            .replace(/[-_]+/g, ' ')
+                            .replace(/\b\w/g, c => c.toUpperCase())
+                            .trim();
+
+                        const publicUrl = supabaseClient
+                            .storage
+                            .from(bucket)
+                            .getPublicUrl(fileName).data.publicUrl;
+
+                        const lowerName = name.toLowerCase();
+                        const config = characterConfig[lowerName];
+
+                        let category, priority;
+                        if (config) {
+                            category = config.category;
+                            priority = config.priority;
+                        } else {
+                            category = goals[index % goals.length];
+                            priority = 99;
+                        }
+
+                        return {
+                            name: name || 'AI Guide',
+                            desc: 'Personalized AI Therapy Companion',
+                            img: publicUrl,
+                            category: category,
+                            priority: priority
+                        };
+                    });
+
+                    characters.sort((a, b) => a.priority - b.priority);
+                    return characters;
+                }
+            }
+        } catch (e) {
+            console.warn(`Failed to list bucket ${bucket}`, e);
+        }
+    }
+
+    return null; // Trigger fallback
+}
+
+// ===== Goal Tabs =====
+async function initGoalTabs() {
     const tabs = document.querySelectorAll('.goal-tab');
     const grid = document.querySelector('.character-cards-grid');
 
-    // Character data - images matching character names and descriptions
-    const goalCharacters = {
+    // Show loading state
+    grid.innerHTML = '<div style="color:white; text-align:center; padding:2rem; width:100%;">Loading your guides...</div>';
+
+    // Fetch data
+    let allCharacters = await fetchAndProcessCharacters();
+
+    if (!allCharacters || allCharacters.length === 0) {
+        console.log('Using fallback characters');
+        const fallback = getFallbackCharacters();
+        allCharacters = [];
+        Object.keys(fallback).forEach(key => {
+            fallback[key].forEach(char => {
+                allCharacters.push({ ...char, category: key });
+            });
+        });
+    }
+
+    // Group characters
+    const characterMap = {};
+    allCharacters.forEach(char => {
+        const cat = (char.category || char.goal || 'sleep').toLowerCase();
+        if (!characterMap[cat]) characterMap[cat] = [];
+        characterMap[cat].push({
+            name: char.name,
+            desc: char.description || char.desc || 'Your personal AI guide.',
+            img: char.image_url || char.img
+        });
+    });
+
+    function updateCharacters(goal) {
+        const characters = characterMap[goal] || characterMap['sleep'] || [];
+
+        if (characters.length === 0) {
+            grid.innerHTML = '<div style="color:rgba(255,255,255,0.5); text-align:center; padding:2rem; width:100%;">No guides found for this goal.</div>';
+            return;
+        }
+
+        grid.innerHTML = characters.map(char => {
+            // Handle image logic
+            let imgSrc = char.img || '';
+            if (imgSrc && !imgSrc.includes('/') && !imgSrc.startsWith('http')) {
+                imgSrc = `https://images.unsplash.com/${char.img}?w=300&h=350&fit=crop&crop=face`;
+            }
+
+            // Fallback image for onerror
+            const fallbackImg = "https://images.unsplash.com/photo-1620121692029-d088224ddc74?w=300&h=350&fit=crop";
+
+            return `
+            <div class="guide-card">
+                <div class="guide-image">
+                    <div class="image-placeholder"></div>
+                    <img src="${imgSrc}" 
+                         alt="${char.name}"
+                         loading="lazy"
+                         onload="this.classList.add('loaded'); this.previousElementSibling.style.display='none';"
+                         onerror="this.onerror=null; this.src='${fallbackImg}'; this.classList.add('loaded'); this.previousElementSibling.style.display='none';">
+                </div>
+                <div class="guide-info">
+                    <h3 class="guide-name">${char.name}</h3>
+                    <p class="guide-desc">${char.desc}</p>
+                </div>
+            </div>
+        `;
+        }).join('');
+    }
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            updateCharacters(tab.dataset.goal);
+        });
+    });
+
+    // Initial load
+    updateCharacters('sleep');
+}
+
+function getFallbackCharacters() {
+    return {
         sleep: [
             { name: 'Midnight Cat', desc: 'Wise feline who teaches the art of perfect napping.', img: 'midnight-cat.png' },
             { name: 'Dr. Nightingale', desc: 'Compassionate sleep medicine specialist with 20 years experience.', img: 'dr-nightingale.png' },
@@ -224,44 +811,51 @@ function initGoalTabs() {
             { name: 'Dr. Appreciate', desc: 'Expert in gratitude practices.', img: 'photo-1487412720507-e7ab37603c6f' }
         ]
     };
-
-
-    function updateCharacters(goal) {
-        const characters = goalCharacters[goal] || goalCharacters.fears;
-        grid.innerHTML = characters.map(char => {
-            // Check if it's a local image file or Unsplash photo
-            const imgSrc = char.img.includes('.')
-                ? char.img // Local file
-                : `https://images.unsplash.com/${char.img}?w=300&h=350&fit=crop&crop=face`; // Unsplash
-
-            return `
-            <div class="guide-card">
-                <div class="guide-image">
-                    <img src="${imgSrc}" alt="${char.name}">
-                </div>
-                <div class="guide-info">
-                    <h3 class="guide-name">${char.name}</h3>
-                    <p class="guide-desc">${char.desc}</p>
-                </div>
-            </div>
-        `;
-        }).join('');
-    }
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            tabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            updateCharacters(tab.dataset.goal);
-        });
-    });
 }
 
 // ===== Floating Elements =====
 function initFloatingElements() {
+    createFloatingBalls();
     createOrbs();
     createParticles();
     createFeathers();
+}
+
+function createFloatingBalls() {
+    const container = document.getElementById('floatingBallsContainer');
+    if (!container) return;
+
+    const ballCount = 8; // Number of 3D balls
+
+    for (let i = 0; i < ballCount; i++) {
+        const ball = document.createElement('div');
+        ball.classList.add('floating-ball');
+
+        // Random size between 60px and 200px
+        const size = Math.random() * 140 + 60;
+
+        // Random position
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+
+        // Random animation duration (slow: 20-40 seconds)
+        const duration = Math.random() * 20 + 20;
+        const delay = Math.random() * -20; // Stagger start
+
+        // Alternate between animations
+        const animation = i % 2 === 0 ? 'floatBall' : 'floatBallAlt';
+
+        ball.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            left: ${x}%;
+            top: ${y}%;
+            animation: ${animation} ${duration}s ease-in-out ${delay}s infinite;
+            opacity: ${0.3 + Math.random() * 0.4};
+        `;
+
+        container.appendChild(ball);
+    }
 }
 
 function createOrbs() {
@@ -357,26 +951,6 @@ function initTherapyCards() {
     const overlay = modal.querySelector('.modal-overlay');
 
     // openModal/closeModal functions were here, now global
-
-    // Mobile Carousel Scroll Sync
-    const carousel = document.querySelector('.character-cards-grid');
-    const indicators = document.querySelectorAll('.dot');
-
-    if (carousel && indicators.length) {
-        carousel.addEventListener('scroll', () => {
-            const scrollLeft = carousel.scrollLeft;
-            const cardWidth = carousel.firstElementChild.offsetWidth;
-            const cardIndex = Math.round(scrollLeft / cardWidth);
-
-            indicators.forEach((dot, index) => {
-                if (index === cardIndex) {
-                    dot.classList.add('active');
-                } else {
-                    dot.classList.remove('active');
-                }
-            });
-        });
-    }
 
     cards.forEach(card => {
         // Card click - toggle selection
@@ -575,7 +1149,9 @@ function initEngineControls() {
 
         nodes.forEach((node, index) => {
             const angleDeg = (360 / totalNodes) * index;
-            const delay = index * 0.1; // Staggered animation
+            // Fixed duration for all to prevent overtaking - USER REQUEST
+            const duration = 40;
+            const delay = index * (40 / totalNodes); // Evenly distribute along the 40s loop
 
             const nodeEl = document.createElement('div');
             nodeEl.className = 'orbit-node clickable';
@@ -585,7 +1161,8 @@ function initEngineControls() {
             nodeEl.style.setProperty('--radius', `${radius}px`);
 
             // Randomize duration slightly for organic feel
-            const duration = 20 + Math.random() * 10;
+            // Random duration removed to prevent overtaking
+            // const duration = 20 + Math.random() * 10;
             // Set initial rotation offset
             const startRotation = angleDeg;
 
@@ -634,15 +1211,15 @@ function initEngineControls() {
             // Third Wave
             'ACT': 'act', 'DBT': 'dbt', 'Schema': 'schema', 'MBCT': 'mbct', 'CFT': 'cft',
             // CBT
-            'Restructuring': 'cbt', 'Exposure': 'cbt', 'Behavioral': 'cbt', 'Logic': 'cbt', 'CBT': 'cbt',
+            'Restructuring': 'restructuring', 'Exposure': 'exposure', 'Behavioral': 'behavioral', 'Logic': 'logic', 'CBT': 'cbt',
             // Psychodynamic
-            'Unconscious': 'psychodynamic', 'Dreams': 'psychodynamic', 'Shadow': 'psychodynamic', 'Attachment': 'psychodynamic', 'Psychodynamic': 'psychodynamic',
+            'Unconscious': 'unconscious', 'Dreams': 'dreams', 'Shadow': 'shadow', 'Attachment': 'attachment', 'Psychodynamic': 'psychodynamic',
             // Systemic
-            'Family': 'systemic', 'Context': 'systemic', 'Patterns': 'systemic', 'Relations': 'systemic', 'Systemic': 'systemic',
+            'Family': 'family', 'Context': 'context', 'Patterns': 'family', 'Relations': 'context', 'Systemic': 'systemic',
             // Humanistic
-            'Empathy': 'humanistic', 'Growth': 'humanistic', 'Self': 'humanistic', 'Presence': 'humanistic', 'Humanistic': 'humanistic',
+            'Empathy': 'empathy', 'Growth': 'self', 'Self': 'self', 'Presence': 'awareness', 'Humanistic': 'humanistic',
             // Gestalt
-            'Here & Now': 'gestalt', 'Awareness': 'gestalt', 'Wholeness': 'gestalt', 'Contact': 'gestalt', 'Gestalt': 'gestalt',
+            'Here & Now': 'awareness', 'Awareness': 'awareness', 'Wholeness': 'gestalt', 'Contact': 'empathy', 'Gestalt': 'gestalt',
             // Others
             'Somatic': 'somatic', 'EFT': 'eft', 'Psychoanalysis': 'psychoanalysis'
         };

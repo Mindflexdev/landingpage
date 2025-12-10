@@ -6,19 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
         content="ai.therapy - Your personal AI therapy companion. Experience transformative mental wellness with our cinematic, immersive platform featuring personalized AI therapists.">
-    <title>ai.therapy | Your Personal AI Therapy Companion</title>
+    <title>ai.therapy - Integrative Psychology Engine</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
     <!-- Ambient Background Elements -->
     <div class="ambient-bg">
         <div class="gradient-layer"></div>
+        <div class="floating-balls-container" id="floatingBallsContainer"></div>
         <div class="orbs-container" id="orbsContainer"></div>
         <div class="particles-container" id="particlesContainer"></div>
         <div class="feathers-container" id="feathersContainer"></div>
@@ -28,16 +30,20 @@
     <nav class="nav-glass">
         <div class="nav-container">
             <a href="#" class="nav-logo">
-                <div class="logo-orb"></div>
-                <span>ai.therapy</span>
+                <span>ai<span class="logo-dot">.</span>therapy</span>
             </a>
-            <ul class="nav-links">
-                <li><a href="#therapy-styles">Therapy Styles</a></li>
-                <li><a href="#character-forge">Create Avatar</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="#about">About</a></li>
-            </ul>
-            <a href="#" class="nav-cta">Begin Your Journey</a>
+            <div class="nav-right">
+                <div class="toggle-group">
+                    <button class="toggle-btn" id="langToggle" aria-label="Toggle language">DE</button>
+                    <button class="toggle-btn" id="themeToggle" aria-label="Toggle light/dark mode">🌙</button>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="blog.html" data-en="Blog" data-de="Blog">Blog</a></li>
+                    <li><a href="#about" data-en="About" data-de="Über uns">About</a></li>
+                </ul>
+                <a href="#" class="nav-cta" data-en="Begin Your Journey" data-de="Starte deine Reise">Begin Your
+                    Journey</a>
+            </div>
         </div>
     </nav>
 
@@ -46,8 +52,10 @@
         <div class="hero-header">
 
             <h1 class="hero-title">
-                <span class="title-line">Your Mind Deserves</span>
-                <span class="title-line gradient-text">A Gentle Guide</span>
+                <span class="title-line" data-en="Your Mind Deserves" data-de="Dein Geist verdient">Your Mind
+                    Deserves</span>
+                <span class="title-line gradient-text" data-en="A Gentle Guide" data-de="Einen sanften Begleiter">A
+                    Gentle Guide</span>
             </h1>
 
         </div>
@@ -115,8 +123,12 @@
             <!-- Header (Sibling 1) -->
             <div class="engine-header">
                 <!-- <span class="section-tag">Core Architecture</span> -->
-                <h2 class="section-title">Integrative <span class="gradient-text">Psychology Engine</span></h2>
-                <p class="section-subtitle">
+                <h2 class="section-title"><span data-en="Integrative" data-de="Integrative">Integrative</span> <span
+                        class="gradient-text" data-en="Psychology Engine" data-de="Psychologie Engine">Psychology
+                        Engine</span></h2>
+                <p class="section-subtitle"
+                    data-en="Our LLM has been trained on the full spectrum of therapeutic modalities. Enable specific modules to customize your AI's reasoning architecture."
+                    data-de="Unser LLM wurde auf dem gesamten Spektrum therapeutischer Modalitäten trainiert. Aktiviere spezifische Module, um die Denkarchitektur deiner KI anzupassen.">
                     Our LLM has been trained on the full spectrum of therapeutic modalities.
                     Enable specific modules to customize your AI's reasoning architecture.
                 </p>
