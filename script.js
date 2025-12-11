@@ -91,7 +91,7 @@ function initLangToggle() {
 function applyLanguage(lang) {
     // Update all elements with data-en and data-de attributes
     document.querySelectorAll('[data-en][data-de]').forEach(el => {
-        el.textContent = el.dataset[lang];
+        el.innerHTML = el.dataset[lang];
     });
 
     // Update goal tabs
