@@ -804,7 +804,7 @@ async function initGoalTabs() {
             const CLONE_COUNT = 2;
             if (cards.length > CLONE_COUNT) {
                 // Scroll to the first real character (Luna Starlight)
-                cards[CLONE_COUNT].scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
+                horizontalScrollTo(cards[CLONE_COUNT], false);
             }
         }, 400); // Increased delay to ensure rendering is complete
 
@@ -826,22 +826,30 @@ async function initGoalTabs() {
 
         // If near start
         if (scrollLeft < 10) {
-            // Jump to the corresponding position at the end
-            // Visual Index 0 (Clone Start 0) -> Real Index: Last-1 (TotalReal-2)
-            // Corresponding Visual Index = CLONE_COUNT + (TotalReal-2).
             const targetIndex = cloneCount + totalReal - 2;
             const targetCard = grid.children[targetIndex];
-            if (targetCard) targetCard.scrollIntoView({ behavior: 'auto', inline: 'center' });
+            if (targetCard) horizontalScrollTo(targetCard, false);
         }
         else if (scrollLeft > scrollWidth - clientWidth - 10) {
-            // Jump to Corresponding Start
-            // Visual Index Last = Clone End 1 = Real First + 1
-            // We want to jump to Real First + 1.
-            // corresponding Visual Index = CLONE_COUNT + 1.
             const targetIndex = cloneCount + 1;
             const targetCard = grid.children[targetIndex];
-            if (targetCard) targetCard.scrollIntoView({ behavior: 'auto', inline: 'center' });
+            if (targetCard) horizontalScrollTo(targetCard, false);
         }
+    }
+
+    function horizontalScrollTo(card, smooth) {
+        if (!card || !grid) return;
+
+        const cardLeft = card.offsetLeft;
+        const cardWidth = card.offsetWidth;
+        const gridWidth = grid.clientWidth;
+
+        const targetScrollLeft = cardLeft - (gridWidth / 2) + (cardWidth / 2);
+
+        grid.scrollTo({
+            left: targetScrollLeft,
+            behavior: smooth ? 'smooth' : 'auto'
+        });
     }
 
 
@@ -872,7 +880,6 @@ async function initGoalTabs() {
         const CLONE_COUNT = 2; // Must match above
         // Clamp index
         const realCount = cards.length - (CLONE_COUNT * 2);
-        // Note: cards.length is modified now
 
         // Handle wrapping for next/prev buttons
         let validIndex = index;
@@ -885,11 +892,7 @@ async function initGoalTabs() {
         const targetVisualIndex = validIndex + CLONE_COUNT;
 
         // Scroll to card
-        cards[targetVisualIndex].scrollIntoView({
-            behavior: smooth ? 'smooth' : 'auto',
-            inline: 'center',
-            block: 'nearest'
-        });
+        horizontalScrollTo(cards[targetVisualIndex], smooth);
 
         // Update dots
         const dots = document.querySelectorAll('#carouselDots .dot');
