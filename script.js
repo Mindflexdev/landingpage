@@ -1535,11 +1535,20 @@ function initCreationControls() {
 
                 if (errDiv) {
                     errDiv.style.display = 'block';
+                    errDiv.style.visibility = 'visible'; // Ensure visibility
+                    errDiv.style.opacity = '1';
                     errDiv.textContent = msg;
+
+                    // Scroll to error to ensure user sees it
+                    errDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
                     // Shake animation for visibility
                     errDiv.style.animation = 'none';
                     errDiv.offsetHeight; /* trigger reflow */
                     errDiv.style.animation = 'shake 0.5s ease-in-out';
+                } else {
+                    // Fallback if element missing (should not happen)
+                    alert(msg);
                 }
             } else {
                 // Clear error if any
