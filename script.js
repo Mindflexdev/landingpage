@@ -184,63 +184,17 @@ const characterDescTranslations = {
 };
 
 function updateCharacterDescriptions(lang) {
+    // Translation disabled as per user request
+    return;
+
+    /* Original logic disabled
     document.querySelectorAll('.guide-desc').forEach(desc => {
-        const originalText = desc.dataset.originalEn || desc.textContent.trim();
-
-        // Store original English text
-        if (!desc.dataset.originalEn) {
-            desc.dataset.originalEn = originalText;
-        }
-
-        if (lang === 'de') {
-            // Find translation (case-insensitive match)
-            const lowerText = originalText.toLowerCase();
-            let translation = null;
-            let bestMatchLength = 0;
-
-            // Find the best matching translation (longest match wins)
-            for (const [key, value] of Object.entries(characterDescTranslations)) {
-                const keyLower = key.toLowerCase();
-
-                // Check if the description starts with or contains this key
-                if (lowerText.startsWith(keyLower) || lowerText.includes(keyLower)) {
-                    if (keyLower.length > bestMatchLength) {
-                        translation = value;
-                        bestMatchLength = keyLower.length;
-                    }
-                }
-                // Also check if key contains the first 25 chars of description
-                else if (keyLower.includes(lowerText.substring(0, 25))) {
-                    if (lowerText.length > bestMatchLength) {
-                        translation = value;
-                        bestMatchLength = lowerText.length;
-                    }
-                }
-            }
-
-            // Generic fallback: translate common patterns
-            if (!translation) {
-                translation = originalText
-                    .replace(/who teaches/gi, 'der lehrt')
-                    .replace(/who helps/gi, 'der hilft')
-                    .replace(/who guides/gi, 'der führt')
-                    .replace(/who shows/gi, 'der zeigt')
-                    .replace(/expert/gi, 'Experte')
-                    .replace(/specialist/gi, 'Spezialist')
-                    .replace(/companion/gi, 'Begleiter')
-                    .replace(/therapy/gi, 'Therapie')
-                    .replace(/personalized/gi, 'Personalisiert')
-                    .replace(/peaceful/gi, 'friedlich')
-                    .replace(/gentle/gi, 'sanft')
-                    .replace(/wisdom/gi, 'Weisheit');
-            }
-
-            desc.textContent = translation;
-        } else {
-            desc.textContent = desc.dataset.originalEn;
-        }
+        ...
     });
+    */
 }
+
+
 
 // ===== Shared Data & Modal Logic =====
 // Define therapyData globally so both cards and engine can access it
@@ -1341,24 +1295,126 @@ function initEngineControls() {
 
 // ===== Character Creation Controls =====
 function initCreationControls() {
+    const approachesData = {
+        cbt: {
+            en: "<strong>Cognitive Behavioral Therapy (CBT)</strong><br>Focuses on identifying and changing negative thought patterns. Structured and goal-oriented.",
+            de: "<strong>Kognitive Verhaltenstherapie (CBT)</strong><br>Konzentriert sich auf das Erkennen und Ändern negativer Gedankenmuster. Strukturiert und zielorientiert."
+        },
+        act: {
+            en: "<strong>Acceptance and Commitment Therapy (ACT)</strong><br>Encourages accepting difficult feelings while committing to actions aligned with your values.",
+            de: "<strong>Akzeptanz- und Commitmenttherapie (ACT)</strong><br>Fördert die Akzeptanz schwieriger Gefühle und bindet dich an Werte-orientiertes Handeln."
+        },
+        dbt: {
+            en: "<strong>Dialectical Behavior Therapy (DBT)</strong><br>Combines cognitive techniques with mindfulness. Emphasizes emotion regulation and distress tolerance.",
+            de: "<strong>Dialektisch-Behaviorale Therapie (DBT)</strong><br>Kombiniert kognitive Techniken mit Achtsamkeit. Betont Emotionsregulation und Stresstoleranz."
+        },
+        psychodynamic: {
+            en: "<strong>Psychodynamic Therapy</strong><br>Explores how unconscious processes and past experiences shape current behavior.",
+            de: "<strong>Psychodynamische Therapie</strong><br>Erforscht, wie unbewusste Prozesse und vergangene Erfahrungen das heutige Verhalten prägen."
+        },
+        humanistic: {
+            en: "<strong>Humanistic Therapy</strong><br>Emphasizes personal growth, self-actualization, and your innate potential.",
+            de: "<strong>Humanistische Therapie</strong><br>Betont persönliches Wachstum, Selbstverwirklichung und dein angeborenes Potenzial."
+        },
+        schema: {
+            en: "<strong>Schema Therapy</strong><br>Targets deep-seated patterns (schemas) from childhood to heal emotional wounds.",
+            de: "<strong>Schematherapie</strong><br>Zielt auf tiefsitzende Muster (Schemata) aus der Kindheit ab, um emotionale Wunden zu heilen."
+        },
+        gestalt: {
+            en: "<strong>Gestalt Therapy</strong><br>Focuses on the present moment and immediate experience to enhance awareness.",
+            de: "<strong>Gestalttherapie</strong><br>Konzentriert sich auf den gegenwärtigen Moment, um das Bewusstsein zu stärken."
+        },
+        somatic: {
+            en: "<strong>Somatic Experiencing</strong><br>Engages the body to release tension and trauma, recognizing the mind-body connection.",
+            de: "<strong>Somatische Therapie</strong><br>Bezieht den Körper ein, um Spannungen und Trauma zu lösen (Geist-Körper-Verbindung)."
+        },
+        systemic: {
+            en: "<strong>Systemic Therapy</strong><br>Views you as part of a larger system (family, community) to address relationship dynamics.",
+            de: "<strong>Systemische Therapie</strong><br>Betrachtet dich als Teil eines größeren Systems (Familie), um Beziehungsdynamiken zu klären."
+        },
+        mbct: {
+            en: "<strong>Mindfulness-Based Cognitive Therapy</strong><br>Combines cognitive therapy with mindfulness to prevent depression relapse and reduce stress.",
+            de: "<strong>Achtsamkeitsbasierte Kognitive Therapie</strong><br>Kombiniert kognitive Therapie mit Achtsamkeit zur Stressreduktion."
+        },
+        psychoanalysis: {
+            en: "<strong>Psychoanalysis</strong><br>Dives deep into the unconscious mind to uncover repressed conflicts and desires.",
+            de: "<strong>Psychoanalyse</strong><br>Taucht tief ins Unbewusste ein, um verdrängte Konflikte und Wünsche aufzudecken."
+        },
+        eft: {
+            en: "<strong>Emotionally Focused Therapy (EFT)</strong><br>Short-term approach focusing on adult relationships and secure attachment.",
+            de: "<strong>Emotionsfokussierte Therapie (EFT)</strong><br>Kurzzeittherapie, die sich auf Bindung und emotionale Sicherheit in Beziehungen fokussiert."
+        }
+    };
+
     const approachBtns = document.querySelectorAll('.approach-btn');
+    let currentInfoBox = null;
 
     approachBtns.forEach(btn => {
         btn.addEventListener('click', () => {
-            btn.classList.toggle('active');
+            const wasActive = btn.classList.contains('active');
+
+            // Deselect all
+            approachBtns.forEach(b => b.classList.remove('active'));
+
+            // Remove existing info box
+            if (currentInfoBox) {
+                currentInfoBox.remove();
+                currentInfoBox = null;
+            }
+
+            // If it wasn't active, select it (toggle behavior for single item)
+            if (!wasActive) {
+                btn.classList.add('active');
+
+                const type = btn.dataset.type;
+                const info = approachesData[type];
+
+                if (info) {
+                    // Create info box
+                    const infoBox = document.createElement('div');
+                    infoBox.className = 'approach-info-box';
+                    const currentLang = localStorage.getItem('lang') || 'en';
+                    infoBox.innerHTML = info[currentLang];
+                    infoBox.setAttribute('data-en', info.en);
+                    infoBox.setAttribute('data-de', info.de);
+
+                    // Find where to insert (after the last element of the current row)
+                    const grid = btn.parentElement;
+                    const buttons = Array.from(grid.children).filter(el => el.classList.contains('approach-btn'));
+                    const btnIndex = buttons.indexOf(btn);
+
+                    let insertionPoint = btn;
+                    const baseTop = btn.offsetTop;
+
+                    for (let i = btnIndex; i < buttons.length; i++) {
+                        if (buttons[i].offsetTop === baseTop) {
+                            insertionPoint = buttons[i];
+                        } else {
+                            break;
+                        }
+                    }
+
+                    if (insertionPoint.nextSibling) {
+                        grid.insertBefore(infoBox, insertionPoint.nextSibling);
+                    } else {
+                        grid.appendChild(infoBox);
+                    }
+
+                    currentInfoBox = infoBox;
+                }
+            }
         });
     });
 
     const createBtn = document.querySelector('.forge-cta');
     if (createBtn) {
         createBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const btnText = createBtn.querySelector('span:not(.cta-icon)');
-            if (btnText) btnText.textContent = "Bringing to Life...";
-            setTimeout(() => {
-                if (btnText) btnText.textContent = "Ready!";
-                createBtn.classList.add('success');
-            }, 1500);
+            // It's a link now, but if we want animation:
+            // e.preventDefault();
+            // ... animation logic ...
+            // window.location.href = createBtn.href;
+
+            // keeping simplified for now as it is a direct link
         });
     }
 }
