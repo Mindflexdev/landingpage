@@ -1504,12 +1504,27 @@ function initCreationControls() {
     const createBtn = document.querySelector('.forge-cta');
     if (createBtn) {
         createBtn.addEventListener('click', (e) => {
-            // It's a link now, but if we want animation:
-            // e.preventDefault();
-            // ... animation logic ...
-            // window.location.href = createBtn.href;
+            const nameInput = document.getElementById('guideName');
+            const descInput = document.getElementById('guideDescription');
+            const selectedStyle = document.querySelector('.approach-btn.active');
 
-            // keeping simplified for now as it is a direct link
+            let missing = [];
+            if (!nameInput || !nameInput.value.trim()) missing.push('Name');
+            if (!descInput || !descInput.value.trim()) missing.push('Description');
+            if (!selectedStyle) missing.push('Therapy Style');
+
+            if (missing.length > 0) {
+                e.preventDefault();
+                // Simple textual reminder as requested
+                const currentLang = localStorage.getItem('lang') || 'en';
+                const msg = currentLang === 'de'
+                    ? `Bitte fülle noch folgende Felder aus: ${missing.join(', ')}`
+                    : `Please fill out the following fields: ${missing.join(', ')}`;
+                alert(msg);
+            } else {
+                // Allow default link behavior (navigate to https://ai.therapy.free)
+                // No backend creation needed here
+            }
         });
     }
 }
