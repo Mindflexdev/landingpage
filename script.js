@@ -721,19 +721,23 @@ async function initGoalTabs() {
         }
     }
 
-    // Prioritize specific characters (Luna Starlight, Coach Thunder)
-    const priorityNames = ['luna starlight', 'coach thunder'];
-
+    // Custom Order: Luna 1st, Mirror Sage 2nd, Coach Thunder Last
     mixedCharacters.sort((a, b) => {
         const nameA = a.name.toLowerCase();
         const nameB = b.name.toLowerCase();
 
-        const indexA = priorityNames.findIndex(p => nameA.includes(p));
-        const indexB = priorityNames.findIndex(p => nameB.includes(p));
+        // 1. Luna Starlight
+        if (nameA.includes('luna starlight')) return -1;
+        if (nameB.includes('luna starlight')) return 1;
 
-        if (indexA !== -1 && indexB !== -1) return indexA - indexB;
-        if (indexA !== -1) return -1;
-        if (indexB !== -1) return 1;
+        // 2. Mirror Sage
+        if (nameA.includes('mirror sage')) return -1;
+        if (nameB.includes('mirror sage')) return 1;
+
+        // Last: Coach Thunder
+        if (nameA.includes('coach thunder')) return 1;
+        if (nameB.includes('coach thunder')) return -1;
+
         return 0;
     });
 
