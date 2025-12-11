@@ -815,7 +815,7 @@ function getFallbackCharacters() {
 
 // ===== Floating Elements =====
 function initFloatingElements() {
-    createFloatingBalls();
+    // createFloatingBalls(); // DISABLED - removed per user request
     createOrbs();
     createParticles();
     createFeathers();
