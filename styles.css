@@ -2756,6 +2756,23 @@ body.light-mode .section-disclaimer {
     font-size: 0.875rem;
 }
 
+.footer-credit {
+    margin-top: 0.75rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-credit a {
+    color: #5B8FD9;
+    text-decoration: none;
+    transition: opacity 0.3s;
+}
+
+.footer-credit a:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 /* ===== Floating Elements ===== */
 /* .orb removed, consolidated below */
 
