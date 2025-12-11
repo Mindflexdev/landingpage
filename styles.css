@@ -4041,23 +4041,22 @@ body.light-mode .modal-techniques li {
         overflow-x: auto;
         scroll-snap-type: x mandatory;
         gap: 0.75rem;
-        padding: 1.5rem calc(11%) 1rem;
+        padding: 1.5rem 1rem;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         position: relative;
         z-index: 1;
-        justify-content: flex-start;
     }
 
     .character-cards-grid::-webkit-scrollbar {
         display: none;
     }
 
-    /* Premium floating card design - wider cards with visible peek */
+    /* Show 2 full cards on mobile */
     .guide-card {
-        flex: 0 0 78%;
-        width: 78%;
-        scroll-snap-align: center;
+        flex: 0 0 46%;
+        width: 46%;
+        scroll-snap-align: start;
         margin: 0;
         background: linear-gradient(165deg,
                 rgba(255, 255, 255, 0.08) 0%,
@@ -4066,16 +4065,14 @@ body.light-mode .modal-techniques li {
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 24px;
+        border-radius: 20px;
         padding: 0;
         overflow: hidden;
         box-shadow:
-            0 20px 40px -10px rgba(0, 0, 0, 0.35),
-            0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-            0 -15px 30px -15px rgba(91, 143, 217, 0.1) inset;
-        transform: scale(0.98);
-        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-            box-shadow 0.4s ease;
+            0 15px 35px -8px rgba(0, 0, 0, 0.3),
+            0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+        transform: scale(1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     /* Active card gets slight emphasis */
