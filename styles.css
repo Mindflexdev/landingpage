@@ -2591,6 +2591,7 @@ body.light-mode .section-disclaimer {
     border: none;
     border-radius: 30px;
     color: white;
+    text-decoration: none;
     font-family: var(--font-body);
     font-size: 1.125rem;
     font-weight: 600;

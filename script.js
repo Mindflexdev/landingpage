@@ -767,8 +767,8 @@ async function initGoalTabs() {
         }
     }
 
-    // Limit to reasonable number (e.g., 7-10 characters for good UX)
-    const displayCharacters = mixedCharacters.slice(0, 7);
+    // Limit to reasonable number (e.g., 24 characters for diverse selection)
+    const displayCharacters = mixedCharacters.slice(0, 24);
 
     function renderCharacters(characters) {
         if (characters.length === 0) {
