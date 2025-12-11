@@ -1226,15 +1226,14 @@ function initEngineControls() {
             }, 200);
         }
 
-        // Activate Brain
-        if (coreBrain) {
-            coreBrain.classList.add('active');
-            // Flash effect
-            coreBrain.style.filter = "drop-shadow(0 0 20px var(--accent-purple)) brightness(1.5)";
-            setTimeout(() => {
-                coreBrain.style.filter = "";
-            }, 300);
-        }
+        // Brain animation disabled - keep grey
+        // if (coreBrain) {
+        //     coreBrain.classList.add('active');
+        //     coreBrain.style.filter = "drop-shadow(0 0 20px var(--accent-purple)) brightness(1.5)";
+        //     setTimeout(() => {
+        //         coreBrain.style.filter = "";
+        //     }, 300);
+        // }
 
         // Spawn Nodes
         spawnNodes(data.nodes);
