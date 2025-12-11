@@ -968,6 +968,40 @@ body.light-mode .cta-button {
     box-shadow: 0 8px 30px rgba(91, 143, 217, 0.3);
 }
 
+/* Section Disclaimer */
+.section-disclaimer {
+    max-width: 800px;
+    margin: 1.5rem auto 0;
+    padding: 0 2rem;
+    text-align: center;
+    font-size: 0.8rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.section-disclaimer .logo-dot {
+    color: #5B8FD9;
+}
+
+body.light-mode .section-disclaimer {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Footer Disclaimer */
+.footer-disclaimer {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 0 2rem;
+    text-align: center;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.footer-disclaimer .logo-dot {
+    color: #5B8FD9;
+}
+
 /* ===== Character Grid Section ===== */
 .character-grid-section {
     width: 100%;
