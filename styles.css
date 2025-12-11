@@ -4040,22 +4040,24 @@ body.light-mode .modal-techniques li {
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        gap: 3%;
-        padding: 1.5rem 2.5%;
+        gap: 2%;
+        padding: 1.5rem 1%;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         position: relative;
         z-index: 1;
+        margin: 0 auto;
+        max-width: 100%;
     }
 
     .character-cards-grid::-webkit-scrollbar {
         display: none;
     }
 
-    /* Show exactly 2 full cards centered on mobile */
+    /* Show 2 full cards on mobile, swipe for more */
     .guide-card {
-        flex: 0 0 47%;
-        width: 47%;
+        flex: 0 0 48%;
+        width: 48%;
         min-width: 150px;
         scroll-snap-align: start;
         margin: 0;
