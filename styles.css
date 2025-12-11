@@ -4040,8 +4040,8 @@ body.light-mode .modal-techniques li {
         display: flex;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        gap: 0.5rem;
-        padding: 1.5rem 2%;
+        gap: 3%;
+        padding: 1.5rem 2.5%;
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
         position: relative;
@@ -4052,11 +4052,11 @@ body.light-mode .modal-techniques li {
         display: none;
     }
 
-    /* Show exactly 2 wide cards on mobile - names fit on one line */
+    /* Show exactly 2 full cards centered on mobile */
     .guide-card {
-        flex: 0 0 48%;
-        width: 48%;
-        min-width: 160px;
+        flex: 0 0 47%;
+        width: 47%;
+        min-width: 150px;
         scroll-snap-align: start;
         margin: 0;
         background: linear-gradient(165deg,
