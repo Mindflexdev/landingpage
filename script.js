@@ -759,6 +759,72 @@ async function initGoalTabs() {
             </div>
         `;
         }).join('');
+
+        // Apply language to new descriptions
+        const currentLang = localStorage.getItem('lang') || 'en';
+        if (currentLang === 'de') {
+            updateCharacterDescriptions('de');
+        }
+
+        // Update carousel dots
+        updateCarouselDots(characters.length);
+
+        // Reset carousel position
+        currentCharIndex = 0;
+        scrollToCharacter(0);
+    }
+
+    // Carousel navigation
+    let currentCharIndex = 0;
+
+    function updateCarouselDots(count) {
+        const dotsContainer = document.getElementById('carouselDots');
+        if (!dotsContainer) return;
+
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < count; i++) {
+            const dot = document.createElement('span');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.addEventListener('click', () => {
+                currentCharIndex = i;
+                scrollToCharacter(i);
+            });
+            dotsContainer.appendChild(dot);
+        }
+    }
+
+    function scrollToCharacter(index) {
+        const cards = grid.querySelectorAll('.guide-card');
+        if (cards.length === 0) return;
+
+        currentCharIndex = Math.max(0, Math.min(index, cards.length - 1));
+
+        // Scroll to card
+        cards[currentCharIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+        // Update dots
+        const dots = document.querySelectorAll('#carouselDots .dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentCharIndex);
+        });
+    }
+
+    // Arrow navigation
+    const prevBtn = document.getElementById('prevChar');
+    const nextBtn = document.getElementById('nextChar');
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const cards = grid.querySelectorAll('.guide-card');
+            scrollToCharacter((currentCharIndex - 1 + cards.length) % cards.length);
+        });
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const cards = grid.querySelectorAll('.guide-card');
+            scrollToCharacter((currentCharIndex + 1) % cards.length);
+        });
     }
 
     tabs.forEach(tab => {
